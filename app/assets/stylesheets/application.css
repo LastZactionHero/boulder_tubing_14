@@ -1,0 +1,134 @@
+/*
+ * This is a manifest file that'll be compiled into application.css, which will include all the files
+ * listed below.
+ *
+ * Any CSS and SCSS file within this directory, lib/assets/stylesheets, vendor/assets/stylesheets,
+ * or vendor/assets/stylesheets of plugins, if any, can be referenced here using a relative path.
+ *
+ * You're free to add application-wide styles to this file and they'll appear at the top of the
+ * compiled file, but it's generally better to create a new file per style scope.
+ *
+ *= require_self
+ *= require_tree .
+*/
+
+body {
+  background-color: #2980b9;
+
+  font-family: Helvetica;
+
+  background: url('/assets/background.jpg') no-repeat center center fixed;
+  -moz-background-size: cover;
+  -webkit-background-size: cover;
+  -o-background-size: cover;
+  background-size: cover;
+}
+
+#background-image-box {
+  position: fixed;
+  z-index: 0;
+
+  left: 0px;
+  right: 0px;
+  top: 0px;
+  bottom: 0px;
+  background-color: black;
+
+  overflow: hidden;
+}
+
+#container {
+  margin: 20px 60px;
+}
+
+#content {
+  padding: 24px;
+  overflow: auto;
+
+  background-color: white;
+  border: 8px solid #2c3e50;
+  border-radius: 20px;
+}
+
+.outdoors-data {
+  width: 50%;
+  float: left;
+}
+
+#boulder-creek-title {
+  margin-top: 8px;
+
+  font-size: 2em;
+  font-family: 'Trocchi', serif;
+  color: white;
+}
+
+h1 {
+  font-size: 3em;
+  font-family: 'Trocchi', serif;
+  text-align: center;
+}
+
+h2 {
+  font-size: 2em;
+  font-family: 'Trocchi', serif;
+  text-align: center;
+  border-bottom: 4px solid black;
+  padding: 0px 8px;
+}
+
+.pending-verdict,
+.verdict {
+  font-size: 4em;
+  font-weight: bold;
+  font-family: 'Trocchi', serif;
+  text-align: center;
+}
+
+.yes {
+  color: #2ecc71;
+}
+
+.no {
+  color: #e74c3c;
+}
+
+.data {
+  text-align: center;
+  font-size: 1.25em;
+}
+
+.heading {
+  font-weight: bold;
+}
+
+@media only screen and (max-width : 800px) {
+  .outdoors-data {
+    width: 100%;
+    float: none;
+  }
+
+  #content {
+    position: relative;
+
+    padding: 24px;
+    overflow: auto;
+
+    background-color: white;
+    border: 8px solid #2c3e50;
+    border-radius: 20px;
+  }
+
+  #container {
+    margin: 5px;
+  }
+
+  h1 {
+    font-size: 2.5em;
+    margin: 0;
+  }
+
+  .verdict {
+    margin: 32px;
+  }
+}
