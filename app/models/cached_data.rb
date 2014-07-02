@@ -1,5 +1,10 @@
 include ActionView::Helpers::SanitizeHelper
 
+################################################################################
+#
+# Fetch weather/river conditions and cache
+#
+################################################################################
 class CachedData < ActiveRecord::Base
 
   def self.get_instance
@@ -25,27 +30,33 @@ class CachedData < ActiveRecord::Base
   end
 
   def cache_new_data
-    a = Mechanize.new { |agent|
-      agent.user_agent_alias = 'Mac Safari'
-    }
-
-    url = "http://waterdata.usgs.gov/co/nwis/uv/?site_no=06730200"
-
-    a.get( url ) do |page|
-      body = page.body
-      self.cfs = body.scan(/00060:[0-9]+:[0-9]+/).first.split(":")[1].to_f
-      
-      weather_client = Weatherman::Client.new( { :unit => "f" } )
-      weather_response = weather_client.lookup_by_woeid 2367231
-
-      self.current_temperature = weather_response.condition['temp']
-      self.current_condition = weather_response.condition['text']
-      self.today_high = weather_response.forecasts[0]['high']
-      self.today_condition = weather_response.forecasts[0]['text']
-    end
+    fetch_cfs
+    fetch_weather
 
     self.cache_time = DateTime.now
     self.save
   end
+
+  def fetch_cfs
+    a = Mechanize.new { |agent|
+      agent.user_agent_alias = 'Mac Safari'
+    }
+    url = "http://waterdata.usgs.gov/co/nwis/uv/?site_no=06730200"
+    a.get( url ) do |page|
+      body = page.body
+      self.cfs = body.scan(/00060:[0-9]+:[0-9]+/).first.split(":")[1].to_f
+    end
+  end
+
+  def fetch_weather
+    weather_client = Weatherman::Client.new( { :unit => "f" } )
+    weather_response = weather_client.lookup_by_woeid 2367231
+
+    self.current_temperature = weather_response.condition['temp']
+    self.current_condition = weather_response.condition['text']
+    self.today_high = weather_response.forecasts[0]['high']
+    self.today_condition = weather_response.forecasts[0]['text']
+  end
+
 
 end
